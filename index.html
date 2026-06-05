@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تبدیل صوت به متن</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 20px; }
+        textarea { width: 90%; height: 200px; margin: 20px 0; padding: 10px; font-size: 16px; }
+        button { padding: 15px 30px; font-size: 18px; background: #28a745; color: white; border: none; border-radius: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>میکروفون را روشن کن</h1>
+    <button id="btn">شروع ضبط</button>
+    <br>
+    <textarea id="output" placeholder="متن اینجا نمایش داده می‌شود..."></textarea>
+
+    <script>
+        const btn = document.getElementById('btn');
+        const output = document.getElementById('output');
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        
+        recognition.lang = 'fa-IR'; // تنظیم زبان فارسی
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        btn.onclick = () => {
+            btn.innerText = "در حال گوش دادن...";
+            recognition.start();
+        };
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[event.results.length - 1][0].transcript;
+            output.value += transcript + " ";
+        };
+    </script>
+</body>
+</html>
